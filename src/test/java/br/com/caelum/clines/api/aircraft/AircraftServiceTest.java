@@ -73,6 +73,20 @@ class AircraftServiceTest {
     }
 
     @Test
+    void shouldReturnAnEmptyListWhenHasNoAircraftInRepository() {
+        given(repository.findAll()).willReturn(List.of());
+
+        var allAircraftViews = service.listAllAircraft();
+
+        assertEquals(0, allAircraftViews.size());
+
+        then(repository).should(only()).findAll();
+        then(viewMapper).shouldHaveNoInteractions();
+        then(formMapper).shouldHaveNoInteractions();
+        then(modelService).shouldHaveNoInteractions();
+    }
+
+    @Test
     void shouldReturnAListOfAircraftViewForEachAircraftInRepository() {
         given(repository.findAll()).willReturn(ALL_AIRCRAFT);
 
@@ -89,19 +103,5 @@ class AircraftServiceTest {
 
         assertEquals(AIRCRAFT_CODE, aircraftView.getCode());
         assertEquals(AIRCRAFT_MODEL, aircraftView.getModel());
-    }
-
-    @Test
-    void shouldReturnAnEmptyListWhenHasNoAircraftInRepository() {
-        given(repository.findAll()).willReturn(List.of());
-
-        var allAircraftViews = service.listAllAircraft();
-
-        assertEquals(0, allAircraftViews.size());
-
-        then(repository).should(only()).findAll();
-        then(viewMapper).shouldHaveNoInteractions();
-        then(formMapper).shouldHaveNoInteractions();
-        then(modelService).shouldHaveNoInteractions();
     }
 }
