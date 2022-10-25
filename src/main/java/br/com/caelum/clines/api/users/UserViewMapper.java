@@ -14,3 +14,6 @@ public class UserViewMapper implements Mapper<User, UserView> {
         return new UserView(source.getName(), source.getEmail());
     }
 }
+
+
+//test
